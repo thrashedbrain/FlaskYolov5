@@ -11,13 +11,10 @@ DETECTION_ENDPOINT = "/v1/detect"
 
 @app.route(DETECTION_ENDPOINT, methods=["POST"])
 def detect():
-    print('start')
     if not request.method == "POST":
-        print('fail')
         return
 
     image_file = request.files["image"]
-    print('asdasd')
     image_bytes = image_file.read()
     img = Image.open(io.BytesIO(image_bytes))
     result = model(img, 640)
