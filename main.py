@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 DETECTION_ENDPOINT = "/v1/detect"
 
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='best.pt')
 
 @app.route(DETECTION_ENDPOINT, methods=["POST"])
 def detect():
@@ -40,5 +41,4 @@ def detect():
 
 
 if __name__ == '__main__':
-    model = torch.hub.load('ultralytics/yolov5', 'custom', path='best.pt')
     app.run(host="0.0.0.0", port=1236)
