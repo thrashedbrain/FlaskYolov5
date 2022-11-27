@@ -17,8 +17,7 @@ model = torch.hub.load('ultralytics/yolov5', 'custom', path='best.pt')
 def init():
     global model
     model = torch.hub.load('ultralytics/yolov5', 'custom', path='best.pt')
-    respose = {'status', 'ok'}
-    return flask.jsonify(respose)
+    return flask.jsonify(status="ok")
 
 
 usage_counter = 0
