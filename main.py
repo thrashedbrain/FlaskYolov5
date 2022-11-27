@@ -1,5 +1,6 @@
 import io
 
+import flask
 import torch
 from PIL import Image
 from flask import Flask, request, send_file
@@ -7,11 +8,27 @@ from flask import Flask, request, send_file
 app = Flask(__name__)
 
 DETECTION_ENDPOINT = "/v1/detect"
+INIT_ENDPOINT = "/v1/init"
 
 model = torch.hub.load('ultralytics/yolov5', 'custom', path='best.pt')
 
+
+@app.route(INIT_ENDPOINT, methods=["POST"])
+def init():
+    global model
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path='best.pt')
+    respose = {'status', 'ok'}
+    return flask.jsonify(respose)
+
+
+usage_counter = 0
+
+
 @app.route(DETECTION_ENDPOINT, methods=["POST"])
 def detect():
+    global model, usage_counter
+    if usage_counter == 4:
+        model = torch.hub.load('ultralytics/yolov5', 'custom', path='best.pt')
     if not request.method == "POST":
         return
 
@@ -19,6 +36,7 @@ def detect():
     image_bytes = image_file.read()
     img = Image.open(io.BytesIO(image_bytes))
     result = model(img, 640)
+    usage_counter = usage_counter + 1
     img_io = io.BytesIO()
     data = result.pandas().xyxy[0]
     line = data.iloc[[0]]
