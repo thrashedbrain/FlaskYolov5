@@ -9,9 +9,9 @@ psutil
 PyYAML>=5.3.1
 scipy>=1.4.1
 --find-links https://download.pytorch.org/whl/torch_stable.html
-torch==1.11.0+cpu
+torch==1.11.0
 --find-links https://download.pytorch.org/whl/torch_stable.html
-torchvision==0.12.0+cpu
+torchvision==0.12.0
 tqdm>=4.41.0
 
 # logging -------------------------------------
@@ -30,6 +30,6 @@ pandas
 
 # extras --------------------------------------
 # Cython  # for pycocotools https://github.com/cocodataset/cocoapi/issues/172
-pycocotools>=2.0  # COCO mAP
+# pycocotools>=2.0  # COCO mAP
 thop  # FLOPS computation
 IPython
